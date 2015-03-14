@@ -6,7 +6,7 @@
     android:weightSum="1">
     <Space
         android:layout_width="match_parent"
-        android:layout_height="20dp"/>
+        android:layout_height="40dp"/>
     <TextView android:id="@+id/text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -34,6 +34,18 @@
         android:singleLine="true"
         android:textSize="@dimen/abc_action_button_min_width_overflow_material"
         android:layout_weight="0.10" />
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="20dp"/>
+    <TextView android:id="@+id/author"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/groupName"
+        android:gravity="bottom|center_horizontal"
+        android:textSize="@dimen/abc_text_size_small_material"
+        android:textColor="@color/button_material_light"
+        android:layout_weight="0.6"
+        android:textIsSelectable="false" />
     <!-- More GUI components go here  -->
 
 </LinearLayout>
