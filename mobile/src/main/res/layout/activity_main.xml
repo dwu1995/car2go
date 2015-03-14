@@ -4,7 +4,8 @@
     android:layout_height="fill_parent"
     android:orientation="vertical"
     android:weightSum="1"
-    android:background="#2B1B17">
+    android:background="@mipmap/sun">
+    <!--android:background="#2B1B17"-->
     <Space
         android:layout_width="match_parent"
         android:layout_height="40dp"/>
@@ -14,7 +15,7 @@
         android:text="@string/co2go"
         android:gravity="center_vertical|center_horizontal"
         android:textSize="@dimen/abc_action_button_min_height_material"
-        android:textColor="@color/button_material_light"
+        android:textColor="#fff5f5f5"
         android:layout_weight="0.1"
         android:textIsSelectable="false" />
     <Space
@@ -29,6 +30,9 @@
         android:textSize="@dimen/abc_action_button_min_width_overflow_material"
         android:textColor="#ff0f0f0f"
         android:layout_weight="0.10" />
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="15dp"/>
     <Button android:id="@+id/userHistory"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -39,6 +43,9 @@
         android:textColor="#ff0f0f0f"
         android:background="#ffe0dfe1"
         android:layout_weight="0.10" />
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="15dp"/>
     <Button android:id="@+id/settings"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
