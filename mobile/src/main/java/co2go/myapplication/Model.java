@@ -7,6 +7,7 @@ public class Model {
     private int co2emission;
     private String modelNumber;
 
+
     public Model(int emission, String modelNumber) {
         co2emission = emission;
         this.modelNumber = modelNumber;
