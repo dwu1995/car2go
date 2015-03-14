@@ -9,4 +9,6 @@
     <string name = "groupName">Created by Not Our Segfault©</string>
     <string name = "carSearch">Search for your car..</string>
     <string name = "settings"> Settings</string>
+    <string name="title_activity_emission_history">EmissionHistory</string>
+    <string name="title_activity_user_settings">userSettings</string>
 </resources>

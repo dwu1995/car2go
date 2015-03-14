@@ -16,6 +16,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".EmissionHistory"
+            android:label="@string/title_activity_emission_history" >
+        </activity>
+        <activity
+            android:name=".userSettings"
+            android:label="@string/title_activity_user_settings" >
+        </activity>
     </application>
 
 </manifest>
