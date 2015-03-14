@@ -7,5 +7,5 @@
     <string name = "startTrip">Start Trip Now</string>
     <string name = "userHistory">Emission History</string>
     <string name = "groupName">Created by Not Our Segfault©</string>
-
+    <string name = "carSearch">Search for your car..</string>
 </resources>
