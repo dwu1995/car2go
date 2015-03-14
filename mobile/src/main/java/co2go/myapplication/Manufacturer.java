@@ -18,4 +18,4 @@ public class Manufacturer {
     public void addModel(Model modelToAdd) {
     }
 }
-}
+
