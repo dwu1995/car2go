@@ -27,6 +27,10 @@ public class MainActivity extends ActionBarActivity {
         Intent intent = new Intent(this, userSettings.class);
         startActivity(intent);
     }
+    public void sendHistoryMessage(View view) {
+        Intent intent = new Intent(this, EmissionHistory.class);
+        startActivity(intent);
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
