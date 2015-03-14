@@ -1,21 +1,32 @@
 package co2go.myapplication;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 
 public class MainActivity extends ActionBarActivity {
+    Button settingButton;
+    Button historyButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
+        settingButton = (Button) findViewById(R.id.settings);
+        historyButton = (Button) findViewById(R.id.userHistory);
+
     }
 
-
+    public void sendUserMessage(View view) {
+        Intent intent = new Intent(this, userSettings.class);
+        startActivity(intent);
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
