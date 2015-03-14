@@ -3,4 +3,9 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name ="co2go">CO2GO</string>
+    <string name = "startTrip">Start Trip Now</string>
+    <string name = "userHistory">Emission History</string>
+    <string name = "groupName">Created by Not Our Segfault©</string>
+
 </resources>
