@@ -54,6 +54,9 @@ public class User {
         return totalEmission;
     }
 
+    public void changeName(String name){
+        this.name = name;
+    }
     private double distanceTraveled(TimeStamp firstStamp, TimeStamp secondStamp) {
         double longitudeDifference;
         double latitudeDifference;
@@ -70,4 +73,5 @@ public class User {
 
         return distance;
     }
+
 }

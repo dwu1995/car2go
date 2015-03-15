@@ -16,4 +16,5 @@
     <string name = "yourName">Your Name</string>
     <string name ="hintManufacturer">Enter Your Car Manufacturer</string>
     <string name ="hintModel">Enter Your Car Model</string>
+    <string name = "updateModel">Enter Car Manufacturer First</string>
 </resources>

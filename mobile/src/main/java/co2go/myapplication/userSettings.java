@@ -1,5 +1,7 @@
 package co2go.myapplication;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -27,11 +29,17 @@ public class userSettings extends ActionBarActivity implements View.OnClickListe
 
     JSONObject carData;
     JSONArray  brandData;
+
+    User user;
+    String brand;
+    boolean manufactureKey = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_settings);
         carData = parseCarData();
+        getUserInformation();
         nameButton = (Button) findViewById(R.id.button_name);
         nameButton.setOnClickListener(this);
         manufacturerButton = (Button) findViewById(R.id.button_name2);
@@ -77,30 +85,102 @@ public class userSettings extends ActionBarActivity implements View.OnClickListe
             String text = new String();
             switch (v.getId()) {
                 case R.id.button_name:
-                    nameSet.setText("hello " + nameSet.getText());
+                    nameSet.setText(nameSet.getText());
                     text = nameSet.getText().toString();
+                    user.changeName(text);
+                    new AlertDialog.Builder(this)
+                            .setTitle("Success!")
+                            .setMessage("Updated Name to " +user.getName())
+                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.cancel();
+                                }
+                            })
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .show();
+
                     break;
                 case R.id.button_name2:
-                    manufacturerSet.setText("hello " + manufacturerSet.getText());
+                    manufacturerSet.setText(manufacturerSet.getText());
                     text = manufacturerSet.getText().toString();
-                    brandData = carData.getJSONArray(text.toUpperCase());
+                    brandData = (JSONArray) carData.get(text.toUpperCase());
+                    brand = text;
+                        new AlertDialog.Builder(this)
+                                .setTitle("Success!")
+                                .setMessage("Updated Manufacturer to " + text.toUpperCase())
+                                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.cancel();
+                                    }
+                                })
+                                .setIcon(android.R.drawable.ic_dialog_alert)
+                                .show();
+                        manufactureKey = true;
+                        modelButton.setText("UPDATE");
                     break;
                 case R.id.button_name3:
-                    modelSet.setText("hello " + modelSet.getText());
+                    modelSet.setText(modelSet.getText());
                     text = modelSet.getText().toString();
-                    for(int i = 0; i < brandData.length(); i++) {
-                        JSONObject carInfo = (JSONObject) brandData.get(i);
-                        if(carInfo.getString("Model").toUpperCase() == text.toUpperCase()){
+                    if(manufactureKey) {
+                        for (int i = 0; i < brandData.length(); i++) {
+                            JSONObject carInfo = (JSONObject) brandData.get(i);
 
+                            if (carInfo.getString("Model").toUpperCase().equals(text.toUpperCase())) {
+                                Model modelToChange = new Model(Integer.parseInt(carInfo.getString("AVG(CO2_gkm)")),
+                                        carInfo.getString("Model"));
+
+                                user.changeCar(modelToChange);
+
+                                new AlertDialog.Builder(this)
+                                        .setTitle("Success!")
+                                        .setMessage("Updated: Model to " +user.getModel().getModelNumber() )
+                                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                dialog.cancel();
+                                            }
+                                        })
+                                        .setIcon(android.R.drawable.ic_dialog_alert)
+                                        .show();
+                                break;
+                            }
                         }
-
                     }
                     break;
                 default:
                     break;
             }
         } catch (JSONException e) {
+            new AlertDialog.Builder(this)
+                    .setTitle("FAILED FAGGOT!")
+                    .setMessage("YOU FAILED")
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    })
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .show();
+            manufactureKey = false;
+        }
 
+
+    }
+
+    public void getUserInformation() {
+        JSONObject userInfo = parseUserData();
+
+        String name = "";
+        String manufacturer = "";
+        String modelNumber = "";
+        int emission = 0;
+        try {
+            name = userInfo.getString("Name");
+            modelNumber = userInfo.getString("Model");
+            emission = Integer.parseInt(userInfo.getString("AVG(CO2_gkm)"));
+            Model model = new Model(emission, modelNumber);
+            User parsedUser = new User(name, model);
+            user = parsedUser;
+        } catch (JSONException e) {
         }
 
     }

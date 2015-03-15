@@ -67,7 +67,7 @@ public class MainActivity extends ActionBarActivity implements LocationListener{
         final int status = (Integer) view.getTag();
         TimeStamp initial = new TimeStamp();
         TimeStamp after;
-        if(status ==1) {
+        if(status == 1) {
             playButton.setText("STOP");
             view.setTag(0);
             initial = new TimeStamp();
@@ -104,8 +104,6 @@ public class MainActivity extends ActionBarActivity implements LocationListener{
 
     @Override
     public void onLocationChanged(Location location) {
-        //textView2.setText("Latitude"+location.getLatitude());
-        //textView3.setText("Longitude"+ location.getLongitude());
         user.addTimeStamp(location.getLongitude(),location.getLatitude());
     }
     @Override

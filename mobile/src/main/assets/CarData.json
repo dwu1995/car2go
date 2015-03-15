@@ -1,11 +1,10 @@
-[
 {
-  "ABARTH":
+  "ABARTH": 
   [{
     "Model": "500, 2012 onwards",
     "AVG(CO2_gkm)": "152.5"}]
-},
-{
+,
+
   "ALFA ROMEO":
   [
   {
@@ -21,8 +20,8 @@
     "AVG(CO2_gkm)": "115.66666666666667"
   }
   ]
-},
-{
+,
+
   "AUDI":[
   {
     "Model": "A1",
@@ -93,8 +92,8 @@
     "AVG(CO2_gkm)": "179"
   }
   ]
-},
-{
+,
+
   "BMW": [
   {
     "Model": "1 Series 3-door F21, From September 2012",
@@ -189,8 +188,8 @@
     "AVG(CO2_gkm)": "20.666666666666668"
   }
   ]
-},
-{
+,
+
   "CHRYSLER JEEP": [
   {
     "Model": "Chrysler Ypsilon, MY 2013",
@@ -221,8 +220,8 @@
     "AVG(CO2_gkm)": "230"
   }
   ]
-},
-{
+,
+
   "CITROEN":[
   {
     "Model": "C4",
@@ -249,16 +248,16 @@
     "AVG(CO2_gkm)": "115"
   }
   ]
-},
-{
+,
+
   "FERRARI": [
   {
     "Model": "All Models",
     "AVG(CO2_gkm)": "262"
   }
   ]
-},
-{
+,
+
   "FIAT": [
   {
     "Model": "500 and 500C, 2012 onwards",
@@ -285,16 +284,16 @@
     "AVG(CO2_gkm)": "129"
   }
   ]
-},
-{
+,
+
   "FORD": [
   {
     "Model": "Ka, Model Year - Post 2014",
     "AVG(CO2_gkm)": "115"
   }
   ]
-},
-{
+,
+
   "JAGUAR": [
   {
     "Model": "F-TYPE Coupe & Convertible, 15MY",
@@ -309,16 +308,16 @@
     "AVG(CO2_gkm)": "221"
   }
   ]
-},
-{
+,
+
   "LEXUS": [
   {
     "Model": "CT, MY2014",
     "AVG(CO2_gkm)": "91.6"
   }
   ]
-},
-{
+,
+
   "MAZDA": [
   {
     "Model": "CX-5",
@@ -333,8 +332,8 @@
     "AVG(CO2_gkm)": "120.75"
   }
   ]
-},
-{
+,
+
   "MERCEDES-BENZ": [
   {
     "Model": "A-Class, Model Year 2014",
@@ -437,8 +436,8 @@
     "AVG(CO2_gkm)": "150.66666666666666"
   }
   ]
-},
-{
+,
+
   "MINI": [
   {
     "Model": "MINI Clubman R55",
@@ -469,16 +468,16 @@
     "AVG(CO2_gkm)": "143.5"
   }
   ]
-},
-{
+,
+
   "MITSUBISHI": [
   {
     "Model": "i-MiEV",
     "AVG(CO2_gkm)": "0"
   }
   ]
-},
-{
+,
+
   "NISSAN": [
   {
     "Model": "E-NV200, 2014",
@@ -489,8 +488,8 @@
     "AVG(CO2_gkm)": "0"
   }
   ]
-},
-{
+,
+
   "PEUGEOT": [
   {
     "Model": "308",
@@ -513,8 +512,8 @@
     "AVG(CO2_gkm)": "145"
   }
   ]
-},
-{
+,
+
   "PORSCHE": [
   {
     "Model": "911 (991)",
@@ -533,8 +532,8 @@
     "AVG(CO2_gkm)": "192"
   }
   ]
-},
-{
+,
+
   "ROLLS ROYCE": [
   {
     "Model": "Ghost",
@@ -545,8 +544,8 @@
     "AVG(CO2_gkm)": "327"
   }
   ]
-},
-{
+,
+
   "SKODA": [
   {
     "Model": "New Octavia Estate, 2013",
@@ -557,24 +556,24 @@
     "AVG(CO2_gkm)": "145.5"
   }
   ]
-},
-{
+,
+
   "SUBARU": [
   {
     "Model": "WRX STI AWD, From 2015 MY",
     "AVG(CO2_gkm)": "242"
   }
   ]
-},
-{
+,
+
   "SUZUKI": [
   {
     "Model": "SX4 S-Cross",
     "AVG(CO2_gkm)": "129.25"
   }
   ]
-},
-{
+,
+
   "VAUXHALL":[
   {
     "Model": "Astra 5 Door Hatchback, Model Year 2014",
@@ -589,16 +588,16 @@
     "AVG(CO2_gkm)": "109"
   }
   ]
-},
-{
+,
+
   "VOLKSWAGEN": [
   {
     "Model": "New Golf, 2013",
     "AVG(CO2_gkm)": "132.25"
   }
   ]
-},
-{
+,
+
   "VOLVO": [
   {
     "Model": "S60, MY15",
@@ -654,4 +653,3 @@
   }
   ]
 }
-]
