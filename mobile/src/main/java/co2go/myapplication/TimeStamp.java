@@ -19,6 +19,7 @@ public class TimeStamp {
         this.longitude = longitude;
         this.latitude = latitude;
     }
+
     public double getLongitude(){
         return longitude;
     }
@@ -31,4 +32,8 @@ public class TimeStamp {
         return time;
     }
 
+    // returns the time difference in seconds between the timestamps
+    public long getTimeDifference( TimeStamp old, TimeStamp current) {
+        return ( ( current.time.getTime() - old.time.getTime() ) / 1000 );
+    }
 }
