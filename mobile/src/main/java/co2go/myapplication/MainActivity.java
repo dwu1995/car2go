@@ -7,12 +7,25 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.content.Context;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.widget.TextView;
+import android.widget.Toast;
+import java.io.InputStream;
+import java.io.IOException;
+import org.json.*;
 
 
-public class MainActivity extends ActionBarActivity {
+
+public class MainActivity extends ActionBarActivity implements LocationListener{
     Button settingButton;
     Button historyButton;
     Button playButton;
+    LocationManager locationmanager;
+    User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +36,22 @@ public class MainActivity extends ActionBarActivity {
         historyButton = (Button) findViewById(R.id.userHistory);
         playButton = (Button) findViewById(R.id.button);
         playButton.setTag(1);
+
+        locationmanager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        Criteria cri = new Criteria();
+        String provider = locationmanager.getBestProvider(cri, false);
+
+        if (provider != null & !provider.equals("")) {
+            Location location = locationmanager.getLastKnownLocation(provider);
+            locationmanager.requestLocationUpdates(provider, 2000, 1, this);
+            if (location != null) {
+                onLocationChanged(location);
+            } else {
+                Toast.makeText(getApplicationContext(), "location not found", Toast.LENGTH_LONG).show();
+            }
+        } else {
+            Toast.makeText(getApplicationContext(), "Provider is null", Toast.LENGTH_LONG).show();
+        }
     }
 
     public void sendUserMessage(View view) {
@@ -72,4 +101,98 @@ public class MainActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        TextView textView2=(TextView)findViewById(R.id.textview2);
+
+        TextView textView3=(TextView)findViewById(R.id.textview3);
+
+        textView2.setText("Latitude"+location.getLatitude());
+        textView3.setText("Longitude"+ location.getLongitude());
+    }
+    @Override
+    public void onStatusChanged(String s, int i, Bundle bundle) {
+    }
+    @Override
+    public void onProviderEnabled(String s) {
+    }
+    @Override
+    public void onProviderDisabled(String s) {
+    }
+
+    public void getUserInformation() {
+        JSONObject userInfo = parseUserData();
+        JSONObject carInfo = parseCarData();
+
+    }
+
+    public JSONObject parseUserData() {
+        String JSONString = null;
+        JSONObject JSONObject = null;
+        try {
+
+            //open the inputStream to the file
+            InputStream inputStream = getAssets().open("user.json");
+
+            int sizeOfJSONFile = inputStream.available();
+
+            //array that will store all the data
+            byte[] bytes = new byte[sizeOfJSONFile];
+
+            //reading data into the array from the file
+            inputStream.read(bytes);
+
+            //close the input stream
+            inputStream.close();
+
+            JSONString = new String(bytes, "UTF-8");
+            JSONObject = new JSONObject(JSONString);
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+        catch (JSONException x) {
+            x.printStackTrace();
+            return null;
+        }
+        return JSONObject;
+    }
+    public JSONObject parseCarData() {
+        String JSONString = null;
+        JSONObject JSONObject = null;
+        try {
+
+            //open the inputStream to the file
+            InputStream inputStream = getAssets().open("CarData.json");
+
+            int sizeOfJSONFile = inputStream.available();
+
+            //array that will store all the data
+            byte[] bytes = new byte[sizeOfJSONFile];
+
+            //reading data into the array from the file
+            inputStream.read(bytes);
+
+            //close the input stream
+            inputStream.close();
+
+            JSONString = new String(bytes, "UTF-8");
+            JSONObject = new JSONObject(JSONString);
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+        catch (JSONException x) {
+            x.printStackTrace();
+            return null;
+        }
+        return JSONObject;
+    }
+
+
+
+
 }
