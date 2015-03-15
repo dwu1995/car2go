@@ -36,13 +36,18 @@ public class MainActivity extends ActionBarActivity {
 
     public void sendStartMessage(View view) {
         final int status = (Integer) view.getTag();
+        TimeStamp initial = new TimeStamp();
+        TimeStamp after;
         if(status ==1) {
             playButton.setText("STOP");
             view.setTag(0);
+            initial = new TimeStamp();
         }
         else {
             playButton.setText("START TRIP NOW");
             view.setTag(1);
+            after = new TimeStamp();
+            long tripTime = after.getTimeDifference(initial); //tripTime = trip time in seconds
         }
     }
     @Override
