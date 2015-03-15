@@ -26,11 +26,12 @@ public class MainActivity extends ActionBarActivity implements LocationListener{
     Button playButton;
     LocationManager locationmanager;
     User user;
+    Manufacturer brands;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        getUserInformation();
         setContentView(R.layout.activity_main);
         settingButton = (Button) findViewById(R.id.settings);
         historyButton = (Button) findViewById(R.id.userHistory);
@@ -104,9 +105,9 @@ public class MainActivity extends ActionBarActivity implements LocationListener{
 
     @Override
     public void onLocationChanged(Location location) {
-
         //textView2.setText("Latitude"+location.getLatitude());
         //textView3.setText("Longitude"+ location.getLongitude());
+        user.addTimeStamp(location.getLongitude(),location.getLatitude());
     }
     @Override
     public void onStatusChanged(String s, int i, Bundle bundle) {
@@ -118,9 +119,28 @@ public class MainActivity extends ActionBarActivity implements LocationListener{
     public void onProviderDisabled(String s) {
     }
 
+    public void getCarInformation(){
+
+    }
+
     public void getUserInformation() {
         JSONObject userInfo = parseUserData();
-        JSONObject carInfo = parseCarData();
+
+        String name = "";
+        String manufacturer = "";
+        String modelNumber = "";
+        int emission = 0;
+        try {
+            name = userInfo.getString("Name");
+            manufacturer = userInfo.getString("Manufacturer");
+            modelNumber = userInfo.getString("Model");
+            emission = Integer.parseInt(userInfo.getString("AVG(CO2_gkm)"));
+            Model model = new Model(emission, modelNumber);
+            Manufacturer carBrand = new Manufacturer(manufacturer);
+            User parsedUser = new User(name, carBrand, model);
+            user = parsedUser;
+        } catch (JSONException e) {
+        }
 
     }
 
