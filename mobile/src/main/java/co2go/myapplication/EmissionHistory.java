@@ -2,7 +2,6 @@ package co2go.myapplication;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuItem;
 
 
@@ -14,13 +13,14 @@ public class EmissionHistory extends ActionBarActivity {
         setContentView(R.layout.activity_emission_history);
     }
 
-
+    /*
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_emission_history, menu);
         return true;
     }
+    */
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

@@ -28,7 +28,8 @@
         android:text="@string/startTrip"
         android:textSize="@dimen/abc_action_button_min_width_overflow_material"
         android:textColor="#ff0f0f0f"
-        android:layout_weight="0.10" />
+        android:layout_weight="0.10"
+        android:onClick="sendStartMessage"/>
     <Space
         android:layout_width="match_parent"
         android:layout_height="15dp"/>
