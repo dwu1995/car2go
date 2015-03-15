@@ -20,6 +20,21 @@
     <Space
         android:layout_width="match_parent"
         android:layout_height="90dp"/>
+    <TextView android:id="@+id/print"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/emissions"
+        android:layout_marginLeft="10dp"
+        android:textSize="22dp"
+        android:gravity="bottom"
+        android:textColor="@color/button_material_light"
+        android:layout_weight="0.1"
+        android:textIsSelectable="false" />
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="5dp"/>   <Space
+    android:layout_width="match_parent"
+    android:layout_height="15dp"/>
     <Button android:id="@+id/button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -30,20 +45,6 @@
         android:textColor="#ff0f0f0f"
         android:layout_weight="0.10"
         android:onClick="sendStartMessage"/>
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="15dp"/>
-    <Button android:id="@+id/userHistory"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="@string/userHistory"
-        android:singleLine="true"
-        android:textSize="@dimen/abc_action_button_min_width_overflow_material"
-        android:textColor="#ff0f0f0f"
-        android:background="#ffe0dfe1"
-        android:layout_weight="0.10"
-        android:onClick="sendHistoryMessage"/>
     <Space
         android:layout_width="match_parent"
         android:layout_height="15dp"/>
@@ -60,7 +61,7 @@
         android:onClick="sendUserMessage"/>
     <Space
         android:layout_width="match_parent"
-        android:layout_height="20dp"/>
+        android:layout_height="50dp"/>
 
     <!-- More GUI components go here  --> <TextView android:id="@+id/author"
     android:layout_width="match_parent"
@@ -69,7 +70,7 @@
     android:gravity="bottom|center_horizontal"
     android:textSize="@dimen/abc_text_size_small_material"
     android:textColor="@color/button_material_light"
-    android:layout_weight="0.6"
+    android:layout_weight="0.55"
     android:textIsSelectable="false" />
 
 </LinearLayout>

@@ -17,4 +17,5 @@
     <string name ="hintManufacturer">Enter Your Car Manufacturer</string>
     <string name ="hintModel">Enter Your Car Model</string>
     <string name = "updateModel">Enter Car Manufacturer First</string>
+    <string name = "emissions">  Trip CO2 Emissions:</string>
 </resources>

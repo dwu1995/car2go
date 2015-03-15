@@ -26,6 +26,7 @@ public class MainActivity extends ActionBarActivity implements LocationListener{
     Button playButton;
     LocationManager locationmanager;
     User user;
+    TimeStamp initial = new TimeStamp();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +34,7 @@ public class MainActivity extends ActionBarActivity implements LocationListener{
         getUserInformation();
         setContentView(R.layout.activity_main);
         settingButton = (Button) findViewById(R.id.settings);
-        historyButton = (Button) findViewById(R.id.userHistory);
+      //  historyButton = (Button) findViewById(R.id.userHistory);
         playButton = (Button) findViewById(R.id.button);
         playButton.setTag(1);
 
@@ -65,18 +66,21 @@ public class MainActivity extends ActionBarActivity implements LocationListener{
 
     public void sendStartMessage(View view) {
         final int status = (Integer) view.getTag();
-        TimeStamp initial = new TimeStamp();
         TimeStamp after;
+        TextView printEmissions = (TextView) findViewById(R.id.print);
+
         if(status == 1) {
             playButton.setText("STOP");
             view.setTag(0);
             initial = new TimeStamp();
+            printEmissions.setText("Trip CO2 Emissions:   ");
         }
         else {
             playButton.setText("START TRIP NOW");
             view.setTag(1);
             after = new TimeStamp();
             long tripTime = after.getTimeDifference(initial); //tripTime = trip time in seconds
+            printEmissions.setText("Trip CO2 Emissions:   " + String.valueOf(tripTime) + " grams");
         }
     }
     @Override
@@ -101,11 +105,10 @@ public class MainActivity extends ActionBarActivity implements LocationListener{
 
         return super.onOptionsItemSelected(item);
     }
-
-    @Override
-    public void onLocationChanged(Location location) {
-        user.addTimeStamp(location.getLongitude(),location.getLatitude());
-    }
+  @Override
+  public void onLocationChanged(Location location) {
+      user.addTimeStamp(location.getLongitude(),location.getLatitude());
+}
     @Override
     public void onStatusChanged(String s, int i, Bundle bundle) {
     }
