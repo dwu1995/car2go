@@ -6,8 +6,9 @@
     android:weightSum="1"
     android:background="@mipmap/sun">
 
-    <TextView android:text="@string/hello_world" android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <TextView android:text="    " android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"/>
 
     <EditText
         android:id="@+id/userName"
