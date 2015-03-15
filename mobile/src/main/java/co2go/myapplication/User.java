@@ -15,6 +15,7 @@ public class User {
     private Model car;
     private ArrayList<TimeStamp> TimeStamps;
     private TimeStamp lastTimeStamp;
+
     public User(String name,  Manufacturer manufact, Model car) {
         this.name = name;
         this.manufacturer = manufact;

@@ -104,12 +104,9 @@ public class MainActivity extends ActionBarActivity implements LocationListener{
 
     @Override
     public void onLocationChanged(Location location) {
-        TextView textView2=(TextView)findViewById(R.id.textview2);
 
-        TextView textView3=(TextView)findViewById(R.id.textview3);
-
-        textView2.setText("Latitude"+location.getLatitude());
-        textView3.setText("Longitude"+ location.getLongitude());
+        //textView2.setText("Latitude"+location.getLatitude());
+        //textView3.setText("Longitude"+ location.getLongitude());
     }
     @Override
     public void onStatusChanged(String s, int i, Bundle bundle) {
