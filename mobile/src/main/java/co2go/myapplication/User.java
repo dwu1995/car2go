@@ -5,33 +5,24 @@ package co2go.myapplication;
  */
 
 import java.util.ArrayList;
-import java.util.Date;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 
 public class User {
     private String name;
-    private Manufacturer manufacturer;
     private Model car;
     private ArrayList<TimeStamp> TimeStamps;
     private TimeStamp lastTimeStamp;
-    public User(String name,  Manufacturer manufact, Model car) {
+
+    public User(String name, Model car) {
         this.name = name;
-        this.manufacturer = manufact;
         this.car = car;
         TimeStamps = new ArrayList<TimeStamp>();
     }
-    public void changeCar(Manufacturer newManufacturer, Model newModel) {
-        manufacturer = newManufacturer;
+    public void changeCar(Model newModel) {
         car = newModel;
     }
 
     public String getName() {
         return name;
-    }
-
-    public Manufacturer getManufacturer() {
-        return manufacturer;
     }
 
     public Model getModel(){
