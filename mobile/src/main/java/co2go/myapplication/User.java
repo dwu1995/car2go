@@ -5,12 +5,16 @@ package co2go.myapplication;
  */
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 public class User {
     private String name;
     private Manufacturer manufacturer;
     private Model car;
     private ArrayList<TimeStamp> TimeStamps;
+    private TimeStamp lastTimeStamp;
     public User(String name,  Manufacturer manufact, Model car) {
         this.name = name;
         this.manufacturer = manufact;
@@ -36,6 +40,43 @@ public class User {
 
     public void addTimeStamp(double longitude, double latitude){
         TimeStamp stampToAdd = new TimeStamp(longitude,latitude);
-        TimeStamps.add(stampToAdd);
+        TimeStamp latestTimeStamp = lastTimeStamp;
+        double timeDiff = stampToAdd.getTime().getTime() - latestTimeStamp.getTime().getTime();
+        timeDiff = timeDiff / (60 * 60 * 1000) % 24;
+        double distanceDiff = distanceTraveled(stampToAdd, latestTimeStamp);
+        double speed = distanceDiff/timeDiff;
+
+        if(speed > 30) {
+            TimeStamps.add(stampToAdd);
+        }
+        lastTimeStamp = stampToAdd;
+    }
+
+    public double calculateEmission() {
+        double distanceSum = 0;
+        double totalEmission;
+        for(int i = 0; i < TimeStamps.size()-1;i++){
+            distanceSum += distanceTraveled(TimeStamps.get(i), TimeStamps.get(i+1));
+        }
+
+        totalEmission = distanceSum * car.getEmission();
+        return totalEmission;
+    }
+
+    private double distanceTraveled(TimeStamp firstStamp, TimeStamp secondStamp) {
+        double longitudeDifference;
+        double latitudeDifference;
+        double distance;
+
+        longitudeDifference = (firstStamp.getLongitude() -
+                secondStamp.getLongitude()) * 110.320;
+
+        latitudeDifference = (firstStamp.getLatitude() -
+                secondStamp.getLatitude()) * 110.54;
+
+        distance = Math.sqrt(Math.pow(latitudeDifference,2) +
+                Math.pow(longitudeDifference,2));
+
+        return distance;
     }
 }

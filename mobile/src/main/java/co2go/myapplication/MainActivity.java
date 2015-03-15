@@ -12,7 +12,7 @@ import android.widget.Button;
 public class MainActivity extends ActionBarActivity {
     Button settingButton;
     Button historyButton;
-    Button startButton;
+    Button playButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,8 +21,8 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
         settingButton = (Button) findViewById(R.id.settings);
         historyButton = (Button) findViewById(R.id.userHistory);
-        startButton = (Button) findViewById(R.id.button);
-
+        playButton = (Button) findViewById(R.id.button);
+        playButton.setTag(1);
     }
 
     public void sendUserMessage(View view) {
@@ -35,15 +35,23 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void sendStartMessage(View view) {
-
+        final int status = (Integer) view.getTag();
+        if(status ==1) {
+            playButton.setText("STOP");
+            view.setTag(0);
+        }
+        else {
+            playButton.setText("START TRIP NOW");
+            view.setTag(1);
+        }
     }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
