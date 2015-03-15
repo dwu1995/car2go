@@ -9,13 +9,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import org.json.JSONException;
 import org.json.*;
+import java.io.*;
 
-import java.io.IOException;
-import java.io.InputStream;
+
+import java.nio.charset.StandardCharsets;
+
+import org.json.JSONStringer;
 
 
 public class userSettings extends ActionBarActivity implements View.OnClickListener {
@@ -29,6 +31,7 @@ public class userSettings extends ActionBarActivity implements View.OnClickListe
 
     JSONObject carData;
     JSONArray  brandData;
+    JSONObject userData;
 
     User user;
     String brand;
@@ -40,6 +43,17 @@ public class userSettings extends ActionBarActivity implements View.OnClickListe
         setContentView(R.layout.activity_user_settings);
         carData = parseCarData();
         getUserInformation();
+        new AlertDialog.Builder(this)
+                .setTitle("USER INFORMATION")
+                .setMessage("Name : " + user.getName() + "\n Model: " + user.getModel().getModelNumber()
+                    + "\n Manufacturer: " + brand)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
         nameButton = (Button) findViewById(R.id.button_name);
         nameButton.setOnClickListener(this);
         manufacturerButton = (Button) findViewById(R.id.button_name2);
@@ -90,7 +104,7 @@ public class userSettings extends ActionBarActivity implements View.OnClickListe
                     user.changeName(text);
                     new AlertDialog.Builder(this)
                             .setTitle("Success!")
-                            .setMessage("Updated Name to " +user.getName())
+                            .setMessage("Updated Name to " + user.getName())
                             .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     dialog.cancel();
@@ -98,25 +112,26 @@ public class userSettings extends ActionBarActivity implements View.OnClickListe
                             })
                             .setIcon(android.R.drawable.ic_dialog_alert)
                             .show();
-
+                    userData.put("Name", user.getName());
                     break;
                 case R.id.button_name2:
                     manufacturerSet.setText(manufacturerSet.getText());
                     text = manufacturerSet.getText().toString();
                     brandData = (JSONArray) carData.get(text.toUpperCase());
                     brand = text;
-                        new AlertDialog.Builder(this)
-                                .setTitle("Success!")
-                                .setMessage("Updated Manufacturer to " + text.toUpperCase())
-                                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.cancel();
-                                    }
-                                })
-                                .setIcon(android.R.drawable.ic_dialog_alert)
-                                .show();
-                        manufactureKey = true;
-                        modelButton.setText("UPDATE");
+                    new AlertDialog.Builder(this)
+                            .setTitle("Success!")
+                            .setMessage("Updated Manufacturer to " + text.toUpperCase())
+                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.cancel();
+                                }
+                            })
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .show();
+                    manufactureKey = true;
+                    modelButton.setText("UPDATE");
+                    userData.put("Manufacturer", text.toUpperCase());
                     break;
                 case R.id.button_name3:
                     modelSet.setText(modelSet.getText());
@@ -145,14 +160,21 @@ public class userSettings extends ActionBarActivity implements View.OnClickListe
                             }
                         }
                     }
+                    userData.put("Model", user.getModel().getModelNumber());
+                    userData.put("AVG(CO2_gkm)", user.getModel().getEmission());
                     break;
                 default:
                     break;
             }
+            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(new
+                    File(getFilesDir()+File.separator+"userData.json"),false));
+            bufferedWriter.write(userData.toString());
+            bufferedWriter.flush();
+            bufferedWriter.close();
         } catch (JSONException e) {
             new AlertDialog.Builder(this)
-                    .setTitle("FAILED FAGGOT!")
-                    .setMessage("YOU FAILED")
+                    .setTitle("FAIL!")
+                    .setMessage("Failed to Update")
                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.cancel();
@@ -161,28 +183,55 @@ public class userSettings extends ActionBarActivity implements View.OnClickListe
                     .setIcon(android.R.drawable.ic_dialog_alert)
                     .show();
             manufactureKey = false;
+        } catch (IOException e){
         }
-
 
     }
 
     public void getUserInformation() {
-        JSONObject userInfo = parseUserData();
+
+        try {
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(new
+                    File(getFilesDir()+File.separator+"userData.json")));
+            String read;
+            StringBuilder builder = new StringBuilder("");
+
+
+            while((read = bufferedReader.readLine()) != null){
+                builder.append(read);
+            }
+            bufferedReader.close();
+
+            userData = parseString(builder.toString());
+        } catch (IOException e) {
+            try {
+                userData = parseUserData();
+                BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(new
+                        File(getFilesDir()+File.separator+"userData.json"),false));
+                bufferedWriter.write(userData.toString());
+                bufferedWriter.flush();
+                bufferedWriter.close();
+
+            } catch (IOException c){
+            }
+            userData = parseUserData();
+        }
 
         String name = "";
         String manufacturer = "";
         String modelNumber = "";
         int emission = 0;
         try {
-            name = userInfo.getString("Name");
-            modelNumber = userInfo.getString("Model");
-            emission = Integer.parseInt(userInfo.getString("AVG(CO2_gkm)"));
+            name = userData.getString("Name");
+            modelNumber = userData.getString("Model");
+            manufacturer = userData.getString("Manufacturer");
+            emission = Integer.parseInt(userData.getString("AVG(CO2_gkm)"));
             Model model = new Model(emission, modelNumber);
             User parsedUser = new User(name, model);
             user = parsedUser;
+            brand = manufacturer;
         } catch (JSONException e) {
         }
-
     }
 
     public JSONObject parseUserData() {
@@ -217,6 +266,41 @@ public class userSettings extends ActionBarActivity implements View.OnClickListe
         }
         return JSONObject;
     }
+
+    public JSONObject parseString(String input) {
+        String JSONString = null;
+        JSONObject JSONObject = null;
+        try {
+
+            //open the inputStream to the file
+            InputStream inputStream = new ByteArrayInputStream(input.getBytes(StandardCharsets.UTF_8));
+
+
+            int sizeOfJSONFile = inputStream.available();
+
+            //array that will store all the data
+            byte[] bytes = new byte[sizeOfJSONFile];
+
+            //reading data into the array from the file
+            inputStream.read(bytes);
+
+            //close the input stream
+            inputStream.close();
+
+            JSONString = new String(bytes, "UTF-8");
+            JSONObject = new JSONObject(JSONString);
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+        catch (JSONException x) {
+            x.printStackTrace();
+            return null;
+        }
+        return JSONObject;
+    }
+
 
     public JSONObject parseCarData() {
         String JSONString = null;
