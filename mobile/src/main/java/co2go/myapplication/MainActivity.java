@@ -26,7 +26,6 @@ public class MainActivity extends ActionBarActivity implements LocationListener{
     Button playButton;
     LocationManager locationmanager;
     User user;
-    Manufacturer brands;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,12 +131,10 @@ public class MainActivity extends ActionBarActivity implements LocationListener{
         int emission = 0;
         try {
             name = userInfo.getString("Name");
-            manufacturer = userInfo.getString("Manufacturer");
             modelNumber = userInfo.getString("Model");
             emission = Integer.parseInt(userInfo.getString("AVG(CO2_gkm)"));
             Model model = new Model(emission, modelNumber);
-            Manufacturer carBrand = new Manufacturer(manufacturer);
-            User parsedUser = new User(name, carBrand, model);
+            User parsedUser = new User(name, model);
             user = parsedUser;
         } catch (JSONException e) {
         }
