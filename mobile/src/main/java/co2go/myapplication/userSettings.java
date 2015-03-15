@@ -9,6 +9,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import org.json.JSONException;
+import org.json.*;
+
+import java.io.IOException;
+import java.io.InputStream;
+
 
 public class userSettings extends ActionBarActivity implements View.OnClickListener {
     Button nameButton;
@@ -19,11 +25,13 @@ public class userSettings extends ActionBarActivity implements View.OnClickListe
     EditText manufacturerSet;
     EditText modelSet;
 
+    JSONObject carData;
+    JSONArray  brandData;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_settings);
-
+        carData = parseCarData();
         nameButton = (Button) findViewById(R.id.button_name);
         nameButton.setOnClickListener(this);
         manufacturerButton = (Button) findViewById(R.id.button_name2);
@@ -65,23 +73,101 @@ public class userSettings extends ActionBarActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        String text = new String();
-        switch (v.getId()) {
-            case R.id.button_name:
-                nameSet.setText("hello " + nameSet.getText());
-                text = nameSet.getText().toString();
-                break;
-            case R.id.button_name2:
-                manufacturerSet.setText("hello " + manufacturerSet.getText());
-                text = manufacturerSet.getText().toString();
-                break;
-            case R.id.button_name3:
-                modelSet.setText("hello " + modelSet.getText());
-                text = modelSet.getText().toString();
-                break;
-            default:
-                break;
+        try {
+            String text = new String();
+            switch (v.getId()) {
+                case R.id.button_name:
+                    nameSet.setText("hello " + nameSet.getText());
+                    text = nameSet.getText().toString();
+                    break;
+                case R.id.button_name2:
+                    manufacturerSet.setText("hello " + manufacturerSet.getText());
+                    text = manufacturerSet.getText().toString();
+                    brandData = carData.getJSONArray(text.toUpperCase());
+                    break;
+                case R.id.button_name3:
+                    modelSet.setText("hello " + modelSet.getText());
+                    text = modelSet.getText().toString();
+                    for(int i = 0; i < brandData.length(); i++) {
+                        JSONObject carInfo = (JSONObject) brandData.get(i);
+                        if(carInfo.getString("Model").toUpperCase() == text.toUpperCase()){
+                            
+                        }
+
+                    }
+                    break;
+                default:
+                    break;
+            }
+        } catch (JSONException e) {
+
         }
 
+    }
+
+    public JSONObject parseUserData() {
+        String JSONString = null;
+        JSONObject JSONObject = null;
+        try {
+
+            //open the inputStream to the file
+            InputStream inputStream = getAssets().open("user.json");
+
+            int sizeOfJSONFile = inputStream.available();
+
+            //array that will store all the data
+            byte[] bytes = new byte[sizeOfJSONFile];
+
+            //reading data into the array from the file
+            inputStream.read(bytes);
+
+            //close the input stream
+            inputStream.close();
+
+            JSONString = new String(bytes, "UTF-8");
+            JSONObject = new JSONObject(JSONString);
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+        catch (JSONException x) {
+            x.printStackTrace();
+            return null;
+        }
+        return JSONObject;
+    }
+
+    public JSONObject parseCarData() {
+        String JSONString = null;
+        JSONObject JSONObject = null;
+        try {
+
+            //open the inputStream to the file
+            InputStream inputStream = getAssets().open("CarData.json");
+
+            int sizeOfJSONFile = inputStream.available();
+
+            //array that will store all the data
+            byte[] bytes = new byte[sizeOfJSONFile];
+
+            //reading data into the array from the file
+            inputStream.read(bytes);
+
+            //close the input stream
+            inputStream.close();
+
+            JSONString = new String(bytes, "UTF-8");
+            JSONObject = new JSONObject(JSONString);
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+        catch (JSONException x) {
+            x.printStackTrace();
+            return null;
+        }
+        return JSONObject;
     }
 }
