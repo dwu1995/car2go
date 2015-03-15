@@ -91,7 +91,7 @@ public class userSettings extends ActionBarActivity implements View.OnClickListe
                     for(int i = 0; i < brandData.length(); i++) {
                         JSONObject carInfo = (JSONObject) brandData.get(i);
                         if(carInfo.getString("Model").toUpperCase() == text.toUpperCase()){
-                            
+
                         }
 
                     }
