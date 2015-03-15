@@ -24,7 +24,6 @@ public class MainActivity extends ActionBarActivity {
         playButton = (Button) findViewById(R.id.button);
         playButton.setTag(1);
 
-
     }
 
     public void sendUserMessage(View view) {
