@@ -1,5 +1,7 @@
 package co2go.myapplication;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -27,6 +29,8 @@ public class userSettings extends ActionBarActivity implements View.OnClickListe
 
     JSONObject carData;
     JSONArray  brandData;
+    boolean manufactureKey;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,23 +81,62 @@ public class userSettings extends ActionBarActivity implements View.OnClickListe
             String text = new String();
             switch (v.getId()) {
                 case R.id.button_name:
-                    nameSet.setText("hello " + nameSet.getText());
+                    nameSet.setText(nameSet.getText());
                     text = nameSet.getText().toString();
+                    new AlertDialog.Builder(this)
+                            .setTitle("Success!")
+                            .setMessage("Updated: " + text)
+                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.cancel();
+                                }
+                            })
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .show();
                     break;
                 case R.id.button_name2:
-                    manufacturerSet.setText("hello " + manufacturerSet.getText());
+                    manufacturerSet.setText(manufacturerSet.getText());
                     text = manufacturerSet.getText().toString();
                     brandData = carData.getJSONArray(text.toUpperCase());
+                    if(text.length() > 0) {
+                        new AlertDialog.Builder(this)
+                                .setTitle("Success!")
+                                .setMessage("Updated: " + text)
+                                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.cancel();
+                                    }
+                                })
+                                .setIcon(android.R.drawable.ic_dialog_alert)
+                                .show();
+                        manufactureKey = true;
+                        modelButton.setText("UPDATE");
+                    }
+                    else {
+                        manufactureKey = false;
+                        modelButton.setText("ENTER CAR MANUFACTURER FIRST");
+                    }
                     break;
                 case R.id.button_name3:
-                    modelSet.setText("hello " + modelSet.getText());
+                    modelSet.setText(modelSet.getText());
                     text = modelSet.getText().toString();
-                    for(int i = 0; i < brandData.length(); i++) {
-                        JSONObject carInfo = (JSONObject) brandData.get(i);
-                        if(carInfo.getString("Model").toUpperCase() == text.toUpperCase()){
-                            
+                    if(manufactureKey) {
+                        for (int i = 0; i < brandData.length(); i++) {
+                            JSONObject carInfo = (JSONObject) brandData.get(i);
+                            if (carInfo.getString("Model").toUpperCase() == text.toUpperCase()) {
+                                new AlertDialog.Builder(this)
+                                        .setTitle("Success!")
+                                        .setMessage("Updated: " + text)
+                                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                dialog.cancel();
+                                            }
+                                        })
+                                        .setIcon(android.R.drawable.ic_dialog_alert)
+                                        .show();
+                                break;
+                            }
                         }
-
                     }
                     break;
                 default:
