@@ -23,7 +23,6 @@ public class MainActivity extends ActionBarActivity {
         historyButton = (Button) findViewById(R.id.userHistory);
         playButton = (Button) findViewById(R.id.button);
         playButton.setTag(1);
-
     }
 
     public void sendUserMessage(View view) {
