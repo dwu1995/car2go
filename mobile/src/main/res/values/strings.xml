@@ -11,4 +11,9 @@
     <string name = "settings"> Settings</string>
     <string name="title_activity_emission_history">EmissionHistory</string>
     <string name="title_activity_user_settings">userSettings</string>
+    <string name= "hintName">Enter Your Name Here</string>
+    <string name = "update">Update</string>
+    <string name = "yourName">Your Name</string>
+    <string name ="hintManufacturer">Enter Your Car Manufacturer</string>
+    <string name ="hintModel">Enter Your Car Model</string>
 </resources>

@@ -9,4 +9,49 @@
     <TextView android:text="@string/hello_world" android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
+    <EditText
+        android:id="@+id/userName"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginTop ="20dp"
+        android:layout_marginLeft = "20dp"
+        android:hint="@string/hintName"/>
+    <Button
+        android:id="@+id/button_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:text="@string/update" />
+
+    <EditText
+        android:id="@+id/car_manufacturer"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginTop ="20dp"
+        android:layout_marginLeft = "20dp"
+        android:hint="@string/hintManufacturer"/>
+    <Button
+        android:id="@+id/button_name2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:text="@string/update"/>
+
+    <EditText
+        android:id="@+id/car_model"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginTop ="20dp"
+        android:layout_marginLeft = "20dp"
+        android:hint="@string/hintModel"/>
+    <Button
+        android:id="@+id/button_name3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:text="@string/update"/>
+
 </LinearLayout>
