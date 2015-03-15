@@ -30,27 +30,34 @@ public class User {
     }
 
     public void addTimeStamp(double longitude, double latitude){
-        TimeStamp stampToAdd = new TimeStamp(longitude,latitude);
-        TimeStamp latestTimeStamp = lastTimeStamp;
-        double timeDiff = stampToAdd.getTime().getTime() - latestTimeStamp.getTime().getTime();
-        timeDiff = timeDiff / (60 * 60 * 1000) % 24;
-        double distanceDiff = distanceTraveled(stampToAdd, latestTimeStamp);
-        double speed = distanceDiff/timeDiff;
+        TimeStamp stampToAdd = new TimeStamp(longitude, latitude);
+        if(TimeStamps.size() > 1) {
+           stampToAdd = new TimeStamp(longitude, latitude);
+            TimeStamp latestTimeStamp = lastTimeStamp;
+            double timeDiff = stampToAdd.getTime().getTime() - latestTimeStamp.getTime().getTime();
+            timeDiff = timeDiff / (60 * 60 * 1000) % 24;
+            double distanceDiff = distanceTraveled(stampToAdd, latestTimeStamp);
+            double speed = distanceDiff / timeDiff;
 
-        if(speed > 30) {
+            if (speed > 30) {
+                TimeStamps.add(stampToAdd);
+            }
+            lastTimeStamp = stampToAdd;
+        } else {
             TimeStamps.add(stampToAdd);
         }
-        lastTimeStamp = stampToAdd;
     }
 
     public double calculateEmission() {
         double distanceSum = 0;
-        double totalEmission;
-        for(int i = 0; i < TimeStamps.size()-1;i++){
-            distanceSum += distanceTraveled(TimeStamps.get(i), TimeStamps.get(i+1));
-        }
+        double totalEmission = 0;
+        if(TimeStamps.size() > 1) {
+            for (int i = 0; i < TimeStamps.size() - 1; i++) {
+                distanceSum += distanceTraveled(TimeStamps.get(i), TimeStamps.get(i + 1));
+            }
 
-        totalEmission = distanceSum * car.getEmission();
+            totalEmission = distanceSum * car.getEmission();
+        }
         return totalEmission;
     }
 
@@ -73,5 +80,9 @@ public class User {
 
         return distance;
     }
+    public void clearTimeStamps(){
+        TimeStamps.clear();
+    }
+
 
 }
