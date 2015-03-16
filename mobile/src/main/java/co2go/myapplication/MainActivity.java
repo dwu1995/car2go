@@ -1,5 +1,7 @@
 package co2go.myapplication;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -24,6 +26,7 @@ import java.io.FileWriter;
 import java.io.InputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 
 import org.json.*;
 
@@ -37,15 +40,20 @@ public class MainActivity extends ActionBarActivity implements LocationListener{
     User user;
     TimeStamp initial = new TimeStamp();
     boolean recording;
+    private ArrayList<TimeStamp> TimeStamps;
+    private TimeStamp lastTimeStamp;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         recording = false;
         super.onCreate(savedInstanceState);
         getUserInformation();
+        TimeStamps = new ArrayList<TimeStamp>();
         setContentView(R.layout.activity_main);
         settingButton = (Button) findViewById(R.id.settings);
-      //  historyButton = (Button) findViewById(R.id.userHistory);
+      //historyButton = (Button) findViewById(R.id.userHistory);
+
         playButton = (Button) findViewById(R.id.button);
         playButton.setTag(1);
 
@@ -84,19 +92,20 @@ public class MainActivity extends ActionBarActivity implements LocationListener{
             recording = true;
             playButton.setText("STOP");
             view.setTag(0);
-            initial = new TimeStamp();
-            user.addTimeStamp(0,0);
+            //initial = new TimeStamp();
+            //user.addTimeStamp(0,0);
             printEmissions.setText("Trip CO2 Emissions:   ");
         }
         else {
             recording = false;
             playButton.setText("START TRIP NOW");
+            double temp = 1000;
             view.setTag(1);
-            after = new TimeStamp();
-            user.addTimeStamp(20,20);
-            long tripTime = after.getTimeDifference(initial); //tripTime = trip time in seconds
-            printEmissions.setText("Trip CO2 Emissions:   " + user.calculateEmission()+ " grams");
-            user.clearTimeStamps();
+           // after = new TimeStamp();
+           // user.addTimeStamp(5,5);
+           // long tripTime = after.getTimeDifference(initial); //tripTime = trip time in seconds
+            printEmissions.setText("Trip CO2 Emissions:   \n" + (Math.floor(calculateEmission() * 100) / 100) + " grams");
+            TimeStamps.clear();
         }
     }
     @Override
@@ -124,7 +133,7 @@ public class MainActivity extends ActionBarActivity implements LocationListener{
   @Override
   public void onLocationChanged(Location location) {
       if(recording) {
-          user.addTimeStamp(location.getLongitude(), location.getLatitude());
+          addTimeStamp(location.getLongitude(), location.getLatitude());
       }
 }
     @Override
@@ -284,6 +293,57 @@ public class MainActivity extends ActionBarActivity implements LocationListener{
             return null;
         }
         return JSONObject;
+    }
+
+    private void addTimeStamp(double longitude, double latitude){
+        TimeStamp stampToAdd = new TimeStamp(longitude, latitude);
+        if(TimeStamps.size() > 1) {
+            stampToAdd = new TimeStamp(longitude, latitude);
+            TimeStamp latestTimeStamp = lastTimeStamp;
+            double timeDiff = stampToAdd.getTime().getTime() - latestTimeStamp.getTime().getTime();
+            timeDiff = timeDiff / (60 * 60 * 1000) % 24;
+            double distanceDiff = distanceTraveled(stampToAdd, latestTimeStamp);
+            double speed = distanceDiff / timeDiff;
+
+            if (speed > 30) {
+                TimeStamps.add(stampToAdd);
+            }
+            lastTimeStamp = stampToAdd;
+        } else {
+            lastTimeStamp = stampToAdd;
+            TimeStamps.add(stampToAdd);
+        }
+    }
+
+    private double distanceTraveled(TimeStamp firstStamp, TimeStamp secondStamp) {
+        double longitudeDifference;
+        double latitudeDifference;
+        double distance;
+
+        longitudeDifference = (firstStamp.getLongitude() -
+                secondStamp.getLongitude()) * 110.320;
+
+        latitudeDifference = (firstStamp.getLatitude() -
+                secondStamp.getLatitude()) * 110.54;
+
+        distance = Math.sqrt(Math.pow(latitudeDifference,2) +
+                Math.pow(longitudeDifference,2));
+
+        return distance;
+    }
+
+    public double calculateEmission() {
+        double distanceSum = 0;
+        double totalEmission = 0;
+
+        if(TimeStamps.size() > 1) {
+            for (int i = 0; i < TimeStamps.size() - 1; i++) {
+                distanceSum += distanceTraveled(TimeStamps.get(i), TimeStamps.get(i + 1));
+            }
+
+            totalEmission = distanceSum * user.getModel().getEmission();
+        }
+        return totalEmission;
     }
 
 
